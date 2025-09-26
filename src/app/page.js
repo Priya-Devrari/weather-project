@@ -7,6 +7,7 @@ import HourlyForecast from '../components/HourlyForecast';
 import WeeklyForecast from '../components/WeeklyForecast';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import MapClimateExplorer from '../components/MapClimateExplorer';
 import { getCurrentWeather, getFiveDayForecast, getCurrentWeatherByCoords, getFiveDayForecastByCoords } from '../services/weatherApi';
 
 export default function Home() {
@@ -109,6 +110,7 @@ export default function Home() {
             <CurrentWeather weatherData={currentWeather} />
             <HourlyForecast forecastData={forecast} />
             <WeeklyForecast forecastData={forecast} />
+            <MapClimateExplorer />
           </>
         ) : (
           <div className="text-center py-12">

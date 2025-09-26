@@ -1,19 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import CurrentWeather from '../components/CurrentWeather';
 import HourlyForecast from '../components/HourlyForecast';
 import WeeklyForecast from '../components/WeeklyForecast';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
-import MapClimateExplorer from '../components/MapClimateExplorer';
+const MapClimateExplorer = dynamic(() => import('../components/MapClimateExplorer'), { ssr: false });
+
 import { getCurrentWeather, getFiveDayForecast, getCurrentWeatherByCoords, getFiveDayForecastByCoords } from '../services/weatherApi';
+
 
 export default function Home() {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -39,13 +42,11 @@ export default function Home() {
   const fetchWeatherByCoords = async (lat, lon) => {
     setLoading(true);
     setError(null);
-    
     try {
       const [weatherData, forecastData] = await Promise.all([
         getCurrentWeatherByCoords(lat, lon),
         getFiveDayForecastByCoords(lat, lon)
       ]);
-      
       setCurrentWeather(weatherData);
       setForecast(forecastData);
     } catch (err) {

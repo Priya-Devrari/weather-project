@@ -20,9 +20,16 @@
 }
 
 body {
-  background: var(--background);
+  /* Soft multi-layer gradient background */
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(99, 102, 241, 0.25), transparent 60%),
+    radial-gradient(900px 500px at 110% 0%, rgba(168, 85, 247, 0.22), transparent 60%),
+    radial-gradient(1000px 600px at 50% 110%, rgba(59, 130, 246, 0.18), transparent 60%),
+    linear-gradient(135deg, #1e3a8a 0%, #2563eb 40%, #7c3aed 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Custom scrollbar styles */

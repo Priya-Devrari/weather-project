@@ -57,38 +57,49 @@ export default function MapClimateExplorer() {
   const month = new Date().getMonth();
 
   return (
-    <div>
-      <h2>Weather & Climate Explorer</h2>
-      <MapContainer center={[location.lat, location.lon]} zoom={5} style={{ height: "400px", width: "100%" }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <LocationSelector onSelect={handleLocationSelect} />
-        <Marker position={[location.lat, location.lon]}>
-          <Popup>
-            {loading ? (
-              "Loading..."
-            ) : weather ? (
-              weather.error ? (
-                weather.error
-              ) : (
-                <div>
-                  <b>{weather.name || "Selected Location"}</b><br />
-                  Temp: {weather.main.temp}°C<br />
-                  {weather.weather && weather.weather[0] && (
-                    <>Desc: {weather.weather[0].description}<br /></>
-                  )}
-                  Humidity: {weather.main.humidity}%<br />
-                  Wind: {weather.wind.speed} km/h<br />
-                  <hr />
-                  <b>Seasonal Advice:</b>
-                  <div>{getSeasonalAdvice(location.lat, location.lon, month)}</div>
-                </div>
-              )
-            ) : (
-              "Click anywhere on the map"
-            )}
-          </Popup>
-        </Marker>
-      </MapContainer>
+    <div className="mt-6">
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-xl overflow-hidden">
+        <div className="px-5 py-4 flex items-center justify-between">
+          <h2 className="text-white text-xl font-semibold">Weather &amp; Climate Explorer</h2>
+          <span className="text-white/70 text-sm">Click on the map to get local weather</span>
+        </div>
+        <div className="h-[60vh]">
+          <MapContainer center={[location.lat, location.lon]} zoom={5} style={{ height: "100%", width: "100%" }}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <LocationSelector onSelect={handleLocationSelect} />
+            <Marker position={[location.lat, location.lon]}>
+              <Popup>
+                {loading ? (
+                  <span className="text-sm">Loading...</span>
+                ) : weather ? (
+                  weather.error ? (
+                    <span className="text-red-600 text-sm">{weather.error}</span>
+                  ) : (
+                    <div className="min-w-[200px]">
+                      <div className="font-semibold mb-1">{weather.name || "Selected Location"}</div>
+                      <div className="text-sm text-gray-700 leading-relaxed">
+                        <div><span className="font-medium">Temp:</span> {Math.round(weather.main.temp)}°C</div>
+                        {weather.weather && weather.weather[0] && (
+                          <div><span className="font-medium">Desc:</span> <span className="capitalize">{weather.weather[0].description}</span></div>
+                        )}
+                        <div><span className="font-medium">Humidity:</span> {weather.main.humidity}%</div>
+                        <div><span className="font-medium">Wind:</span> {weather.wind.speed} km/h</div>
+                      </div>
+                      <hr className="my-2 border-gray-200" />
+                      <div className="text-xs text-gray-600">
+                        <div className="font-semibold mb-1">Seasonal Advice</div>
+                        <div>{getSeasonalAdvice(location.lat, location.lon, month)}</div>
+                      </div>
+                    </div>
+                  )
+                ) : (
+                  <span className="text-sm">Click anywhere on the map</span>
+                )}
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
+      </div>
     </div>
   );
 }
